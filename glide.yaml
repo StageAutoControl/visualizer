@@ -1,0 +1,8 @@
+package: github.com/StageAutoControl/visualizer
+import:
+- package: github.com/spf13/cobra
+- package: github.com/golang/protobuf
+  subpackages:
+    - proto
+    - protoc-gen-go
+- package: github.com/gorilla/websocket
