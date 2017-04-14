@@ -3,6 +3,7 @@ package command
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"net"
 )
 
@@ -17,7 +18,7 @@ type Receiver struct {
 }
 
 func NewReceiver(listen string) *Receiver {
-	return &Receiver{listen, make([]handler, 1), nil}
+	return &Receiver{listen, make([]handler, 0), nil}
 }
 
 func (r *Receiver) AddHandler(h handler) {
@@ -51,13 +52,16 @@ func (r *Receiver) handleRequest(conn net.Conn) {
 	reader := bufio.NewReader(conn)
 
 	for {
-		msg, err := reader.ReadBytes('\n')
+		msg, err := reader.ReadBytes(0x0)
+		if err == io.EOF {
+			return
+		}
 		if err != nil {
 			r.handleError(err)
 			return
 		}
 
-		go r.Dispatch(msg)
+		go r.Dispatch(msg[:len(msg)-1])
 	}
 }
 

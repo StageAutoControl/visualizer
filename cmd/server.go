@@ -36,7 +36,7 @@ var serverCmd = &cobra.Command{
 		})
 
 		log.Printf("Websocket server listening on %s \n", frontendListen)
-		err := http.ListenAndServe(frontendListen, nil)
+		err := http.ListenAndServe(frontendListen, mux)
 		if err != nil {
 			log.Fatalf("Failed to listen on frontend http: %v \n", err)
 		}
@@ -47,8 +47,8 @@ var serverCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(serverCmd)
 
-	serverCmd.Flags().StringVarP(&frontendListen, "frontend-port", "f", ":8080", "The listen string to bind the frontend server to")
-	serverCmd.Flags().StringVarP(&commandListen, "command-port", "c", ":1337", "The listen string to bind the command receiver to")
+	serverCmd.Flags().StringVarP(&frontendListen, "frontend-port", "f", "0.0.0.0:8080", "The listen string to bind the frontend server to")
+	serverCmd.Flags().StringVarP(&commandListen, "command-port", "c", "0.0.0.0:1337", "The listen string to bind the command receiver to")
 
 }
 

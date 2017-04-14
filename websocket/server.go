@@ -10,6 +10,9 @@ import (
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
+	CheckOrigin: func(_ *http.Request) bool {
+		return true
+	},
 }
 
 // hub maintains the set of active clients and broadcasts messages to the
@@ -67,7 +70,7 @@ func (s *Server) ServeRequest(rw http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		return
 	}
-	client := &Client{server: s, conn: conn, send: make(chan []byte, 256)}
+	client := &Client{server: s, conn: conn, send: make(chan []byte, 1024)}
 	s.register <- client
 
 	// we don't care for what the client tells us
