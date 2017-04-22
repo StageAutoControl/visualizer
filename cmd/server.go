@@ -47,7 +47,7 @@ var serverCmd = &cobra.Command{
 func init() {
 	RootCmd.AddCommand(serverCmd)
 
-	serverCmd.Flags().StringVarP(&frontendListen, "frontend-port", "f", "0.0.0.0:8080", "The listen string to bind the frontend server to")
+	serverCmd.Flags().StringVarP(&frontendListen, "frontend-port", "f", "0.0.0.0:3001", "The listen string to bind the frontend server to")
 	serverCmd.Flags().StringVarP(&commandListen, "command-port", "c", "0.0.0.0:1337", "The listen string to bind the command receiver to")
 
 }
