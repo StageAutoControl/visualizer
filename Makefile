@@ -3,4 +3,3 @@ build:
 
 start: build
 	./visualizer server
-
